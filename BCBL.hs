@@ -12,5 +12,8 @@ reduce K = K
 reduce (Ap (Ap K x) y) = reduce x
 reduce (Ap (Ap (Ap S x) y) z) = reduce (Ap (Ap x z) (Ap y z))
 reduce (Ap x y) | (reduce x) == x && (reduce y) == y = (Ap x y) 
-                 {-- We stop reduceuation when it accomplishes nothing, allowing                     the computation to terminate (e.g., when x and y are K or S) --}  
+                 {-- We stop reduceuation when it has no effect, allowing                            the computation to terminate (e.g., when x and y are K or S) --}  
                  | otherwise = reduce (Ap (reduce x) (reduce y))
+
+--T = K
+--F = Ap S K
