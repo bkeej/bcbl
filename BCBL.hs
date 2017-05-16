@@ -20,10 +20,9 @@ reduce (Ap x y) | (reduce x) == x && (reduce y) == y = (Ap x y)
                 -- We stop reduction when it has no effect, allowing 
                 -- the computation to terminate (e.g., when x and y are K or S)
 
-{-- We provide a model for Propositional Logic in the SK Calculus.
-    Atomic formula will be interpreted as distinguished expressions 
-    of the calculus, namely t and f. Truth functions map truth values
-    to truth values in the usual way. --}
+{-- We will provide a model for Propositional Logic in the SK Calculus.
+    Truth values are distinguished expressions of the calculus, namely t and f. 
+    Truth functions map truth values to truth values in the usual way. --}
 
 --Truth values in SK combinator guise 
 type Tvalue = Term
@@ -38,7 +37,7 @@ skOR :: Tvalue -> Tvalue -> Tvalue
 skOR x y = reduce (Ap (Ap x t) y)
 
 {-- We define the language of propositional logic and
-    interpret it in the SK calculus --}
+    interpret it in the SK calculus. --}
 
 --Language of propositional logic
 data Form = At String | Ng Form | Dsj Form Form
