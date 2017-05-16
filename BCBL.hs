@@ -1,4 +1,6 @@
---Language of SK combinators
+{-- An implementation of the SK Calculus --}
+
+--The language of SK combinators
 data Term =  S | K | Ap Term Term
     deriving Eq
 
@@ -7,7 +9,7 @@ instance Show Term where
     show S = "S"
     show K = "K"
 
---Evaluating SK combinator expressions
+--Evaluating SK combinator expressions via pattern matching
 reduce :: Term -> Term
 reduce S = S
 reduce K = K 
@@ -18,7 +20,7 @@ reduce (Ap x y) | (reduce x) == x && (reduce y) == y = (Ap x y)
                 -- We stop reduction when it has no effect, allowing 
                 -- the computation to terminate (e.g., when x and y are K or S)
 
-{-- Here we provide a model for Propositional Logic in the SK Calculus.
+{-- We provide a model for Propositional Logic in the SK Calculus.
     Atomic formula will be interpreted as distinguished expressions 
     of the calculus, namely t and f. Truth functions map truth values
     to truth values in the usual way. --}
@@ -35,7 +37,7 @@ skNOT x = reduce (Ap (Ap x f) t)
 skOR :: Tvalue -> Tvalue -> Tvalue
 skOR x y = reduce (Ap (Ap x t) y)
 
-{-- Finally, we define the language of propositional logic and
+{-- We define the language of propositional logic and
     interpret it in the SK calculus --}
 
 --Language of propositional logic
