@@ -1,5 +1,5 @@
 data Term =  S | K | Ap Term Term
-    deriving (Eq)
+    deriving Eq
 
 instance Show Term where
     show (Ap x y) = "(" ++ show x ++ show y ++ ")"
@@ -19,3 +19,12 @@ reduce (Ap x y) | (reduce x) == x && (reduce y) == y = (Ap x y)
 --Truth Values
 t = K
 f = Ap S K
+
+--Syntax of Propositional Logic
+data Form = At String | Ng Form | Dsj Form Form
+    deriving Eq
+
+instance Show Form where
+    show (At a) = a
+    show (Ng f) = "~" ++ show f
+    show (Dsj f1 f2) = "(" ++ show f1 ++ "v" ++ show f2 ++ ")" 
