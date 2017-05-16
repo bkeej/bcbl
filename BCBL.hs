@@ -6,11 +6,11 @@ instance Show Term where
     show S = "S"
     show K = "K"
 
-eval :: Term -> Term
-eval S = S
-eval K = K 
-eval (Con (Con K x) y) = eval x
-eval (Con (Con (Con S x) y) z) = eval (Con (Con x z) (Con y z))
-eval (Con x y) | (eval x) == x && (eval y) == y = (Con x y) 
-               {-- We stop evaluation when it accomplishes nothing. This allows the                computation to terminate (e.g., when x and y are K or S) --}  
-               | otherwise = eval (Con (eval x) (eval y))
+reduce :: Term -> Term
+reduce S = S
+reduce K = K 
+reduce (Con (Con K x) y) = reduce x
+reduce (Con (Con (Con S x) y) z) = reduce (Con (Con x z) (Con y z))
+reduce (Con x y) | (reduce x) == x && (reduce y) == y = (Con x y) 
+                 {-- We stop reduceuation when it accomplishes nothing, allowing                     the computation to terminate (e.g., when x and y are K or S) --}  
+                 | otherwise = reduce (Con (reduce x) (reduce y))
