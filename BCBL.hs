@@ -67,7 +67,9 @@ allModels :: Form -> [[(String,Tvalue)]]
 allModels = models . atoms
 
 
---The intepretation function maps an SK model and a formula to a SK truth value using the SK connectives as the interpretation of Ng and Dsj.
+--The intepretation function maps an SK model and a formula 
+--to a SK truth value using the SK connectives as the 
+--interpretation of Ng and Dsj.
 interp :: [(String,Tvalue)] -> Form -> Tvalue
 interp [] (At at) = error ("No info on " ++ show at)
 interp ((i,v):xs) (At at)
@@ -76,7 +78,9 @@ interp ((i,v):xs) (At at)
 interp xs (Ng f) = skNOT (interp xs f)
 interp xs (Dsj f1 f2) = skOR (interp xs f1) (interp xs f2)   
 
---Tarskian Truth Definition, namely a formula is True in an SK model just in case it is mapped to K by the interpretation function, else it is false.
+--Tarskian Truth Definition, namely a formula is True in an SK model 
+--just in case it is mapped to K by the interpretation function, 
+--else it is false.
 truth :: [(String,Tvalue)] -> Form -> Bool
 truth xs f | interp xs f == t = True
            | otherwise = False
