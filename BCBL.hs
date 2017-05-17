@@ -50,9 +50,10 @@ instance Show Form where
     show (Ng f) = "~" ++ show f
     show (Dsj f1 f2) = "(" ++ show f1 ++ "v" ++ show f2 ++ ")"
 
-{--The intepretation function maps an SK model and a formula 
-   to a SK truth value using the SK connectives as the 
+{--The intepretation function maps an SK valuation (a list of atom, truth value 
+   pairs) and a formula to a SK truth value using the SK connectives as the 
    interpretation of Ng and Dsj.--}
+
 interp :: [(String,Tvalue)] -> Form -> Tvalue
 interp [] (At at) = error (show at ++ " is not in range of the model.")
 interp ((i,v):xs) (At at)
@@ -63,7 +64,8 @@ interp xs (Dsj f1 f2) = skOR (interp xs f1) (interp xs f2)
 
 {--Tarskian Truth Definition, namely a formula is True in an SK model 
    just in case it is mapped to K by the interpretation function, 
-   else it is false.--}
+   else it is false. --}
+
 truth :: [(String,Tvalue)] -> Form -> Bool
 truth xs f | interp xs f == t = True
            | otherwise = False
