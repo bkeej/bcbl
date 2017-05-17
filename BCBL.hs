@@ -47,3 +47,7 @@ instance Show Form where
     show (At a) = a
     show (Ng f) = "~" ++ show f
     show (Dsj f1 f2) = "(" ++ show f1 ++ "v" ++ show f2 ++ ")"
+
+--Interpretation Function
+
+--Tarskian Truth Definition
