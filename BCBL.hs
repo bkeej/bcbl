@@ -57,7 +57,7 @@ atoms (At name) = [name]
 atoms (Ng f)   = atoms f
 atoms (Dsj f1 f2) = (sort.nub.concat) (map atoms [f1,f2])
 
---Get every model (i.e., valuation) for some list of atomic formula
+--Get every SK model for some list of atomic formula
 models :: [String] -> [[(String,Tvalue)]]
 models [] = [[]]
 models (name:names) = map ((name,t) :) (models names)
@@ -67,7 +67,7 @@ allModels :: Form -> [[(String,Tvalue)]]
 allModels = models . atoms
 
 
---The intepretation function maps a model and a formula to a SK truth value using the SK connectives as the meanings of Ng and Dsj.
+--The intepretation function maps an SK model and a formula to a SK truth value using the SK connectives as the interpretation of Ng and Dsj.
 interp :: [(String,Tvalue)] -> Form -> Tvalue
 interp [] (At at) = error ("No info on " ++ show at)
 interp ((i,v):xs) (At at)
@@ -76,4 +76,8 @@ interp ((i,v):xs) (At at)
 interp xs (Ng f) = skNOT (interp xs f)
 interp xs (Dsj f1 f2) = skOR (interp xs f1) (interp xs f2)   
 
---Tarskian Truth Definition
+--Tarskian Truth Definition, namely a formula is True in an SK model just in case it is mapped to K by the interpretation function, else it is false.
+truth :: [(String,Tvalue)] -> Form -> Bool
+truth xs f | interp xs f == t = True
+           | otherwise = False
+
