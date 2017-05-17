@@ -1,3 +1,5 @@
+import Data.List
+
 {-- An implementation of the SK Calculus --}
 
 --The language of SK combinators
@@ -48,6 +50,30 @@ instance Show Form where
     show (Ng f) = "~" ++ show f
     show (Dsj f1 f2) = "(" ++ show f1 ++ "v" ++ show f2 ++ ")"
 
---Interpretation Function
+
+--Get every atomic formula in a formula
+atoms :: Form -> [String]
+atoms (At name) = [name]
+atoms (Ng f)   = atoms f
+atoms (Dsj f1 f2) = (sort.nub.concat) (map atoms [f1,f2])
+
+--Get every model (i.e., valuation) for some list of atomic formula
+models :: [String] -> [[(String,Tvalue)]]
+models [] = [[]]
+models (name:names) = map ((name,t) :) (models names)
+                    ++ map ((name,f):) (models names)
+
+allModels :: Form -> [[(String,Tvalue)]]
+allModels = models . atoms
+
+
+--The intepretation function maps a model and a formula to a SK truth value using the SK connectives as the meanings of Ng and Dsj.
+interp :: [(String,Tvalue)] -> Form -> Tvalue
+interp [] (At at) = error ("No info on " ++ show at)
+interp ((i,v):xs) (At at)
+    | at == i = v
+    | otherwise = interp xs (At at)
+interp xs (Ng f) = skNOT (interp xs f)
+interp xs (Dsj f1 f2) = skOR (interp xs f1) (interp xs f2)   
 
 --Tarskian Truth Definition
