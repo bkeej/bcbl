@@ -3,9 +3,4 @@ This is mostly a joke. I had to create business cards and was given by the unive
 
 ## Are there any good ideas in here?
 
-Yes! It is nice to see how to reduce expressions of the SK calculus via pattern matching in Haskell. It is so elegant. Doing this with a stack or something seems hellish in comparison.
-
-Also, the definition of the sentential connectives is pretty cute. Note that NOT is a post-fix operator while OR is an "infix" operator with asymmetric application of the disjuncts--i.e.,
-
-* NOT x := x (f) (t) 
-* x Or y := x (t) (y)
+No, probably not.
